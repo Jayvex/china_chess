@@ -1,73 +1,186 @@
-# React + TypeScript + Vite
+# 🀄 中国象棋 (Chinese Chess)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+基于 Web 的中国象棋游戏，支持**本地双人对战（PvP）**和 **人机对战（PvE）**两种模式。
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-18-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue) ![Vite](https://img.shields.io/badge/Vite-8-purple)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 📸 游戏截图
 
-## React Compiler
+<!-- 截图占位，可后续补充 -->
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ 功能特性
 
-## Expanding the ESLint configuration
+### 🎮 双人对战模式 (PvP)
+- 两位玩家在同一设备上轮流走棋
+- 红方先手，交替行棋
+- 支持悔棋操作
+- 完整的走棋记录与失子显示
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🤖 AI 对战模式 (PvE)
+- 内置 AI 引擎，采用 **MiniMax 算法 + Alpha-Beta 剪枝**
+- **三档难度可选**：
+  - 🟢 **简单** — 搜索深度 1，适合初学者
+  - 🟡 **普通** — 搜索深度 3（默认），适合有一定基础的玩家
+  - 🔴 **困难** — 搜索深度 4，具有较强棋力
+- 可选择**执红先手**或**执黑后手**
+- AI 思考时显示动态提示
+- 支持**悔两步**（撤销玩家+AI 各一步）
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 🎯 完整象棋规则
+- 7 种棋子走法：帅/将、仕/士、相/象、馬、車、炮、兵/卒
+- 九宫格限制（将/帅、仕/士）
+- 蹩马腿、塞象眼
+- 炮翻山吃子
+- 兵/卒过河后可横移
+- 将军检测、将死判定、和棋判定
+- 对面将规则（将/帅不能照面）
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 🎨 视觉设计
+- SVG 木纹棋盘渲染，新中式暗色典雅风格
+- 金色主题配色
+- 棋子选中高亮（金色边框）
+- 合法走法提示：绿点（移动）+ 红虚线圈（吃子）
+- 回合指示器带呼吸灯动画
+- 响应式布局，适配不同屏幕尺寸
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🚀 快速开始
+
+### 环境要求
+- Node.js >= 18
+- npm / pnpm / yarn
+
+### 安装与运行
+
+```bash
+# 克隆仓库
+git clone https://github.com/Jayvex/china_chess.git
+cd china_chess
+
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+浏览器访问 `http://localhost:5173` 即可开始游戏。
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 构建生产版本
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
 ```
+
+构建产物输出到 `dist/` 目录，可部署至任意静态托管服务。
+
+## 📖 使用指南
+
+### 选择游戏模式
+
+页面顶部提供两个模式按钮：
+
+| 按钮 | 说明 |
+|------|------|
+| 👥 **双人对战** | 本地两人轮流走棋 |
+| 🤖 **AI 对战** | 点击后弹出设置面板 |
+
+### AI 对战设置
+
+点击「AI 对战后」弹出设置面板：
+
+```
+┌─────────────────────┐
+│ 难度                │
+│   🟢 简单           │
+│   🟡 普通  ← 当前   │
+│   🔴 困难           │
+│ ─────────────────── │
+│ 执子                │
+│   执红（先手）       │
+│   执黑（后手）       │
+└─────────────────────┘
+```
+
+1. 先选择难度（简单/普通/困难）
+2. 再选择执子颜色
+3. 点击即开始对局
+
+### 操作方式
+
+- **选棋**：点击己方棋子，显示金色高亮和合法走法提示
+- **走棋**：点击绿色圆点（移动）或红色虚线圈（吃子）完成走棋
+- **取消选择**：点击其他位置或再次点击已选棋子
+- **悔棋**：右侧边栏「悔棋」按钮（PvE 模式下为「悔两步」）
+- **新局**：右侧边栏「新局」按钮重新开始
+
+### 胜负判定
+
+- **将死对方将/帅** → 胜利弹窗
+- **无子可动且未被将军** → 和棋（逼和）
+
+## 🏗️ 项目结构
+
+```
+china_chess/
+├── src/
+│   ├── engine/              # 象棋引擎核心
+│   │   ├── types.ts         # 类型定义、常量、初始棋盘
+│   │   ├── moves.ts         # 走法规则、将军/将死/和棋判定
+│   │   └── ai.ts            # AI 引擎（MiniMax + Alpha-Beta）
+│   ├── components/
+│   │   ├── GameBoard.tsx    # 棋盘组件（SVG + 绝对定位布局）
+│   │   └── Piece.tsx        # 棋子组件
+│   ├── App.tsx              # 主应用逻辑与 UI
+│   ├── App.css              # 样式表
+│   └── main.tsx             # 入口文件
+├── index.html               # HTML 模板
+├── package.json             # 项目配置
+├── tsconfig.json            # TypeScript 配置
+└── vite.config.ts           # Vite 配置
+```
+
+## 🔧 技术栈
+
+| 技术 | 用途 |
+|------|------|
+| [React 18](https://react.dev/) | UI 框架 |
+| [TypeScript](https://www.typescriptlang.org/) | 类型安全 |
+| [Vite 8](https://vitejs.dev/) | 构建工具 & 开发服务器 |
+| [CSS Variables](https://developer.mozilla.org/en-US/docs/Web/CSS/--*) | 主题系统 |
+| SVG | 棋盘网格线渲染 |
+
+## 🧠 AI 引擎说明
+
+### 算法
+- **MiniMax 博弈树搜索** + **Alpha-Beta 剪枝**
+- 默认搜索深度：3 层（普通难度）
+
+### 评估函数
+- 基础分值：将/帅(100000) > 車(900) > 炮(500) > 馬(400) > 相/象(200) > 仕/士(200) > 兵/卒(100)
+- **位置权重表**：兵、馬、炮、車各有独立的 10×9 位置价值矩阵
+- 过河的兵/卒获得额外加分
+- 评分方向：红方正分优势，黑方负分优势
+
+### 性能参考
+| 难度 | 搜索深度 | 典型耗时 |
+|------|----------|----------|
+| 简单 | 1 | < 10ms |
+| 普通 | 3 | ~100-500ms |
+| 困难 | 4 | ~500ms-2s |
+
+## 📝 开发计划
+
+- [ ] 添加音效（走棋、吃子、将军提示音）
+- [ ] 添加走棋动画（棋子平滑移动）
+- [ ] 添加复盘功能（回放历史对局）
+- [ ] 添加计时器（超时判负）
+- [ ] 添加联机对战模式（WebSocket）
+- [ ] 移动端触控优化
+
+## 📄 License
+
+MIT
+
+---
+
+> 💡 如果你在使用过程中发现任何问题或有改进建议，欢迎提 Issue 或 PR！
