@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import type { Board, Position, GameStatus, Move } from './engine/types';
 import { Side, PieceType, initBoard } from './engine/types';
 import { movePiece, isInCheck, isCheckmate, isStalemate, getLegalMoves } from './engine/moves';
-import { getAIMove } from './engine/ai';
+import { getAIMove, resetAI } from './engine/ai';
 import GameBoard from './components/GameBoard';
 import './App.css';
 
@@ -16,7 +16,7 @@ export default function App() {
   const [capturedBlack, setCapturedBlack] = useState<string[]>([]);
   const [mode, setMode] = useState<'pvp' | 'pve'>('pvp');
   const [playerSide, setPlayerSide] = useState<Side>(Side.Red);
-  const [aiDifficulty, setAiDifficulty] = useState(3);
+  const [aiDifficulty, setAiDifficulty] = useState(5);
   const [animateKey, setAnimateKey] = useState(0);
   const [modeMenuOpen, setModeMenuOpen] = useState(false);
   const [aiThinkingState, setAiThinkingState] = useState(false);
@@ -162,6 +162,7 @@ export default function App() {
     setAnimateKey(k => k + 1);
     aiThinking.current = false;
     setAiThinkingState(false);
+    resetAI(); // 重置开局库
   }, []);
 
   const switchMode = useCallback((newMode: 'pvp' | 'pve', side?: Side, depth?: number) => {
@@ -200,9 +201,9 @@ export default function App() {
           {modeMenuOpen && mode === 'pve' && (
             <div className="side-popup">
               <div className="popup-header">难度</div>
-              <button className={`diff-btn ${aiDifficulty === 1 ? 'active' : ''}`} onClick={() => setAiDifficulty(1)}>🟢 简单</button>
-              <button className={`diff-btn ${aiDifficulty === 3 ? 'active' : ''}`} onClick={() => setAiDifficulty(3)}>🟡 普通</button>
-              <button className={`diff-btn ${aiDifficulty === 4 ? 'active' : ''}`} onClick={() => setAiDifficulty(4)}>🔴 困难</button>
+              <button className={`diff-btn ${aiDifficulty === 3 ? 'active' : ''}`} onClick={() => setAiDifficulty(3)}>🟢 简单</button>
+              <button className={`diff-btn ${aiDifficulty === 5 ? 'active' : ''}`} onClick={() => setAiDifficulty(5)}>🟡 普通</button>
+              <button className={`diff-btn ${aiDifficulty === 7 ? 'active' : ''}`} onClick={() => setAiDifficulty(7)}>🔴 困难</button>
               <div className="popup-divider" />
               <div className="popup-header">执子</div>
               <button onClick={() => switchMode('pve', Side.Red, aiDifficulty)}>执红（先手）</button>
