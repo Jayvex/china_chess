@@ -273,4 +273,18 @@ export function movePiece(board: Board, from: Position, to: Position): { board: 
   return { board: applyMoveRaw(board, from, to), captured };
 }
 
+/**
+ * 轻量级检测：指定位置的棋子是否攻击对方将/帅
+ * 比 isInCheck 遍历所有棋子更高效，仅检查单个棋子
+ */
+export function positionAttacksKing(board: Board, pos: Position): boolean {
+  const piece = board[pos.row][pos.col];
+  if (!piece) return false;
+  const opp = opponent(piece.side);
+  const kingPos = findKing(board, opp);
+  if (!kingPos) return false;
+  const rawMoves = getRawMoves(board, pos);
+  return rawMoves.some(m => m.row === kingPos.row && m.col === kingPos.col);
+}
+
 export { getRawMoves, findKing, hasAnyLegalMove };
