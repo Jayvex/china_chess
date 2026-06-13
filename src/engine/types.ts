@@ -1,20 +1,22 @@
 export const BOARD_ROWS = 10;
 export const BOARD_COLS = 9;
 
-export enum Side {
-  Red = 'red',
-  Black = 'black',
-}
+export const Side = {
+  Red: 'red',
+  Black: 'black',
+} as const;
+export type Side = (typeof Side)[keyof typeof Side];
 
-export enum PieceType {
-  King = 'king',
-  Advisor = 'advisor',
-  Elephant = 'elephant',
-  Horse = 'horse',
-  Rook = 'rook',
-  Cannon = 'cannon',
-  Pawn = 'pawn',
-}
+export const PieceType = {
+  King: 'king',
+  Advisor: 'advisor',
+  Elephant: 'elephant',
+  Horse: 'horse',
+  Rook: 'rook',
+  Cannon: 'cannon',
+  Pawn: 'pawn',
+} as const;
+export type PieceType = (typeof PieceType)[keyof typeof PieceType];
 
 export interface Piece {
   type: PieceType;

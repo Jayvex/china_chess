@@ -1,5 +1,4 @@
-import type { Board, Position } from './types';
-import { Side, PieceType } from './types';
+import type { Board, Position, Side } from './types';
 import { getLegalMoves } from './moves';
 
 /**

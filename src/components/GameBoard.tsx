@@ -10,7 +10,7 @@ interface GameBoardProps {
   animateKey: number;
 }
 
-export default function GameBoard({ board, currentSide, selectedPos, onCellClick, animateKey }: GameBoardProps) {
+export default function GameBoard({ board, currentSide, selectedPos, onCellClick, animateKey: _animateKey }: GameBoardProps) {
   const legalMoves = selectedPos ? getLegalMoves(board, selectedPos) : [];
 
   const isLegalTarget = (row: number, col: number) =>

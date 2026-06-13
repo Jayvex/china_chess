@@ -153,7 +153,7 @@ class TranspositionTable {
       return { score: beta, bestMove: entry.bestMove };
     }
 
-    return { bestMove: entry.bestMove };
+    return { score: entry.score, bestMove: entry.bestMove };
   }
 
   set(key: number, depth: number, score: number, flag: 'exact' | 'alpha' | 'beta', bestMove?: { from: Position; to: Position }) {
